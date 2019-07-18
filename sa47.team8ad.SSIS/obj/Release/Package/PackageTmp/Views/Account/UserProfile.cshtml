@@ -1,0 +1,78 @@
+﻿@model EmployeeViewModel
+@{
+    ViewBag.Title = "Profile";
+}
+@using sa47.team8ad.SSIS.Models;
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">User Profile</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <div align="center">
+                    <img alt="User Pic"  width="304" height="236" src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg" id="profile-image1" class="img-circle img-thumbnail img-responsive">
+
+                    <input id="profile-image-upload" class="hidden" type="file">
+                    <div style="color:#999;">click here to change profile image</div>
+                    <!--Upload Image Js And Css-->
+                </div>
+
+                <!-- /input-group -->
+            </div>
+            <div class="col-sm-6">
+                <h4 style="color:#00b1b1;">Full Name </h4>
+                <span>@Model.EmployeeName</span>
+            </div>
+            <div class="col-sm-6">
+                <h4 style="color:#00b1b1;">Email</h4>
+                <span>@Model.Email</span>
+            </div>
+            <div class="col-sm-6">
+                <h4 style="color:#00b1b1;">Role</h4>
+                <span>@Model.Roles.Select(s => s.RoleName).FirstOrDefault()</span>
+            </div>
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6">
+                <div class="panel panel-Info" style="border:solid 1px;">
+                    <div class="panel-heading">Reset Password</div>
+                    <div class="panel-body">
+                        @using (Html.BeginForm("UserProfile", "Account", null, FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Login UserName</label>
+                                <div class="col-md-4">
+
+                                    <input type="text" value="@Model.UserName" readonly class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">Old Password</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.OldPassword, new { htmlAttributes = new { @class = "form-control", @list = "dlItemDescription" } })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-4">New Password</label>
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.NewPassword, new { htmlAttributes = new { @class = "form-control", @list = "dlItemDescription" } })
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-4 col-md-4">
+                                    <button type="submit" class="btn btn-success">Reset Password</button>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>

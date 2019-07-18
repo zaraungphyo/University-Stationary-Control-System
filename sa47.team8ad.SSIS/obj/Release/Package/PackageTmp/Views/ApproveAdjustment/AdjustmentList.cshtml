@@ -1,0 +1,98 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.ItemAdjustmentListViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Adjustment List";
+}
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Adjustment List For Approval</h3>
+    </div>
+    <div class="box-body">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            #
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ItemDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Amount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UnitName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AveragePrice)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.AdjustmentValue)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            i++;
+                            <tr id="row" @i>
+                                <td>
+                                    <text>@i</text>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ItemDescription)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Amount)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UnitName)
+                                </td>
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.AveragePrice)
+                                </td>
+                                <td>
+                                    $@Html.DisplayFor(modelItem => item.AdjustmentValue)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("View Details", "AdjustmentByItem", new { id = item.ItemId })
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <p><strong>Total Adjustment Voucher = $@Model.Sum(total => total.AdjustmentValue).ToString("N2")</strong></p>
+                </div>
+            </div>
+
+            @using (Html.BeginForm("Approve", "ApproveAdjustment", FormMethod.Post))
+            {
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <label class="control-label"><strong>Remark</strong></label>
+                        <input type="text" class="form-control" name="newRemark" id="newRemark" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" value="Approve" class="btn btn-success"
+                               onclick="return confirm('Are you sure you want to approve all records?');" />
+                    </div>
+                </div>
+            }
+    </div>
+</div>
+
+
+

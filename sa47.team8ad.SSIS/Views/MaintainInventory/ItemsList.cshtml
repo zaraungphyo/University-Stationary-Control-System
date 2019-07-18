@@ -1,0 +1,122 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.ItemViewModel>
+
+@{
+    /**/
+
+    ViewBag.Title = "Item List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<p>
+    @Html.ActionLink("Create New Item", "CreateItem", null, new { @class = "btn btn-success" })
+</p>
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Item List</h3>
+        @*@using (Html.BeginForm("ItemsList", "MaintainInventory", FormMethod.Post, new { @class = "form-inline" }))
+        {
+            <div class="form-group">
+                Item Description
+                @Html.TextBox("search", null, new { @class = "form-control", @list = "dlItemName" })
+                <datalist id="dlItemName" name="ItemDescription"></datalist>
+            </div>
+            <input type="submit" value="Search" class="btn btn-primary" />
+            @Html.ActionLink("All", "ItemsList", null, new { @class = "btn btn-danger" })
+        }*@
+    </div>
+    <div class="box-body">
+        <table class="table table-striped table-bordered" id="dtBasicExample">
+            <thead>
+                <tr>
+                    <th>  # </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CategoryName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReorderLevel)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReorderQuantity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuantityOnHand)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UnitName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LocationDesc)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int index = 0;
+                    foreach (var item in Model)
+                    {
+                        index++;
+                        <tr id="row" @index>
+                            <td>
+                                <text>@index</text>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CategoryName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReorderLevel)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReorderQuantity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.QuantityOnHand)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UnitName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LocationDesc)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditItem", new { id = item.ItemId }, new { @class = "btn btn-success" })
+                            </td>
+                        </tr>
+                    }
+                }
+
+        </table>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable({
+            //  "pagingType": "simple" // "simple" option for 'Previous' and 'Next' buttons only
+        });
+        $('.dataTables_length').addClass('bs-select');
+        @*var items = [];
+        $.ajax({
+            url:'@Url.Action("itemsAutoComplete", "PurchaseOrder")',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data, statusCode) {
+                items = data;
+                $.each(data, function (key, values) {
+                    $("#dlItemName").append($("<option>").attr('data-value', values.ItemId).text(values.ItemDescription));
+                });
+            }
+        });*@
+    });
+
+</script>
+
+
+

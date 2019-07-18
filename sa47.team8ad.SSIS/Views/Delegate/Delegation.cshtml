@@ -1,0 +1,154 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.DelegateViewModel>
+
+@{
+    ViewBag.Title = "Delegation History";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["message"]</strong>
+    </div>
+}
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["errorMessage"]</strong>
+    </div>
+}
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Delegation History</h3>
+    </div>
+    <div class="box-body">
+        <div class="panel-group">
+            <div class="panel panel-info">
+                <div class="panel-heading">Current</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover table-striped">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AuthorityStartDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AuthorityEndDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Remark)
+                            </th>
+
+                        </tr>
+                        @foreach (var item in Model.Where(s => DateTime.Now.Date >= s.AuthorityStartDate && DateTime.Now.Date <= s.AuthorityEndDate))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                </td>
+                                <td>
+                                    @item.AuthorityStartDate.Date.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.AuthorityEndDate.Date.ToShortDateString()
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remark)
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">Upcoming</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover table-striped">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AuthorityStartDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AuthorityEndDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Remark)
+                            </th>
+                            <th></th>
+                        </tr>
+                        @foreach (var item in Model.Where(s => DateTime.Now.Date < s.AuthorityStartDate))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                </td>
+                                <td>
+                                    @item.AuthorityStartDate.Date.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.AuthorityEndDate.Date.ToShortDateString()
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remark)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Remove", "removeDelegate", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading">Past Records</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover table-striped">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AuthorityStartDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AuthorityEndDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Remark)
+                            </th>
+
+                        </tr>
+                        @foreach (var item in Model.Where(s => DateTime.Now.Date > s.AuthorityStartDate && DateTime.Now.Date > s.AuthorityEndDate))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                </td>
+                                <td>
+                                    @item.AuthorityStartDate.Date.ToShortDateString()
+                                </td>
+                                <td>
+                                    @item.AuthorityEndDate.Date.ToShortDateString()
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remark)
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

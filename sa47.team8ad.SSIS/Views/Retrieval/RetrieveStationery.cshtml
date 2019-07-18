@@ -1,0 +1,258 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.RetrievalViewModel>
+@using sa47.team8ad.SSIS.Models
+@{
+    ViewBag.Title = "Stationery Retrieval";
+}
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["message"]</strong>
+    </div>
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title"><b>Retrieve Requested Stationery</b></h3>
+    </div>
+    <div class="box-body">
+        @if (Model.Count() > 0)
+        {
+        <form action="~/Retrieval/RetrieveStationery" method="post">
+            <input type="hidden" name="vm" id="vm" />
+            <table class="table table-responsive table-bordered table-striped" id="mainTable dtBasicExample">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuantityOnHand)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NeededQuantity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ActualQuantity)
+                    </th>
+                    <th>
+                        Breakdown By Department
+                    </th>
+                </tr>
+
+                @foreach (RetrievalViewModel item in Model.GroupBy(x => new { ItemId = x.ItemId, ItemDescription = x.ItemDescription },
+                                 (key, values) => new RetrievalViewModel
+                                 {
+                                     ItemDescription = key.ItemDescription,
+                                     NeededQuantity = values.Sum(x => x.NeededQuantity),
+                                     ActualQuantity = values.Sum(x => x.ActualQuantity),
+                                     ItemId = key.ItemId,
+                                     QuantityOnHand = values.First().QuantityOnHand
+                                 }))
+                {
+
+                    <tr id="mainRow" data-item-id="@item.ItemId" data-totalqtyonhand-id="@item.QuantityOnHand">
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ItemDescription)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.QuantityOnHand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NeededQuantity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ActualQuantity)
+                        </td>
+                        <td id="mainCol">
+                            <table class="table table-bordered table-responsive" id="subTable">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
+                                        <th>@Html.DisplayNameFor(model => model.NeededQuantity)</th>
+                                        <th>@Html.DisplayNameFor(model => model.ActualQuantity)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{
+                                        foreach (RetrievalViewModel vm in Model.Where(s => s.ItemId == item.ItemId)
+                                           .GroupBy(x => new { DepartmentId = x.DepartmentId },//{ DepartmentId = x.DepartmentId, DepartmentName = x.DepartmentName },
+                                          (key, values) => new RetrievalViewModel
+                                          {
+                                              DepartmentId = key.DepartmentId,
+                                              ItemId = values.First().ItemId,
+                                              DepartmentName = values.First().DepartmentName, //values.First().DepartmentName,
+                                                                  NeededQuantity = values.Sum(x => x.NeededQuantity),
+                                              ActualQuantity = values.Sum(x => x.ActualQuantity),
+                                              RequisitionDetailsId = values.First().RequisitionDetailsId
+                                          }).ToList())
+                                        {
+                                            <tr id="subRow" data-dept-id="@vm.DepartmentId" data-requisitiondetails-Id="@Model.Where(s=>s.ItemId==item.ItemId && s.DepartmentId==vm.DepartmentId).Select(s=>s.RequisitionDetailsId.ToString()).ToList().Aggregate((x, y) => x + "," + y)">
+
+                                                <td> <text>@vm.DepartmentName</text></td>
+                                                <td>
+                                                    <input type="text" name="needQty" id="needQty" readonly="readonly" class="form-control" value="@vm.NeededQuantity" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="actualQty" id="actualQty" class="form-control actualQty" value="@vm.ActualQuantity" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <br />
+            <button class="btn btn-success" type="submit" id="btnSubmit">Submit</button><!--onclick="updateRetrieval()" -->
+        </form>
+        }
+        else
+        {
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    There is no requisition to retrieve.
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#dtBasicExample').DataTable({
+            //  "pagingType": "simple" // "simple" option for 'Previous' and 'Next' buttons only
+        });
+        $('.dataTables_length').addClass('bs-select');
+
+        adjustActualQty();
+
+        function adjustActualQty() {
+            var $tables = $('table#subTable');
+            $.each($tables, function (index, table) {
+                var parentTableRow = $(this).closest('table tr#mainRow')
+                var QtyOnHand = $(parentTableRow).data("totalqtyonhandId");
+                var item_id = $(parentTableRow).data("itemId");
+                var $rows = $('tbody tr', $(table));
+                // console.log($rows.length);
+                var currentNeededQty = 0;
+                var totalNeededQtyByDept = 0;
+                var totalActualQty = 0;
+
+                for (var i = 0; i < $rows.length; i++) {
+                    currentNeededQty = $($rows[i]).eq(0).find("input#needQty").val();
+                    totalNeededQtyByDept += parseInt(currentNeededQty);
+                }
+                // console.log("totalNeededQtyByDept " + totalNeededQtyByDept)
+                for (var i = 0; i < $rows.length; i++) {
+                    currentNeededQty = $($rows[i]).eq(0).find("input#needQty").val();
+                    var r = Math.floor((parseInt(currentNeededQty) / totalNeededQtyByDept) * parseInt(QtyOnHand));
+                    if (r > currentNeededQty) {
+                        r = currentNeededQty
+                    }
+                    totalActualQty += parseInt(r);
+                    $($rows[i]).eq(0).find("input#actualQty").val(r);
+                }
+                $(this).parent().prev().text(totalActualQty);
+            });
+        }
+
+        function Generatedisburtment() {
+            var disburtments = [];
+            var $tables = $('table#subTable');
+            $.each($tables, function (index, table) {
+                var parentTableRow = $(this).closest('table tr#mainRow')
+                var QtyOnHand = $(parentTableRow).data("totalqtyonhandId");
+                var item_id = $(parentTableRow).data("itemId");
+                var $rows = $('tbody tr', $(table));
+                // console.log($rows.length);
+                for (var i = 0; i < $rows.length; i++) {
+                    var needQty = $($rows[i]).eq(0).find("input#needQty").val();
+                    var actualQty = $($rows[i]).eq(0).find("input#actualQty").val();
+                    var deptId = $($rows[i]).data("deptId");
+                    var requisitiondetailsId = $($rows[i]).data("requisitiondetailsId");
+                    //   var item_id = $(this).closest('table  tbody > tr#mainRow ').data("itemId");
+                    if (requisitiondetailsId.toString().indexOf(',') != -1) {
+                        var requisitiondetailsIds = requisitiondetailsId.split(',');
+                        for (var j = 0; j < requisitiondetailsIds.length; j++) {
+                            var disburtment = {
+                                ItemId: item_id,
+                                DepartmentId: deptId,
+                                RequisitionDetailsId: parseInt(requisitiondetailsIds[j]),
+                                ActualQuantity: (typeof actualQty == "undefined" ? 0 : actualQty),
+                                NeededQuantity: (typeof needQty == "undefined" ? 0 : needQty),
+                                QuantityOnHand: QtyOnHand
+                            };
+                            disburtments.push(disburtment);
+                        }
+                    } else {
+                        var disburtment = {
+                            ItemId: item_id,
+                            DepartmentId: deptId,
+                            RequisitionDetailsId: requisitiondetailsId,
+                            ActualQuantity: (typeof actualQty == "undefined" ? 0 : actualQty),
+                            NeededQuantity: (typeof needQty == "undefined" ? 0 : needQty),
+                            QuantityOnHand: QtyOnHand
+                        };
+                        disburtments.push(disburtment);
+                    }
+                }
+            });
+            //  console.log(JSON.stringify(disburtments))
+            return disburtments;
+        }
+
+     //   updateRetrieval = function (evt) {
+        $("#btnSubmit").on("click", function (evt) {
+            evt.preventDefault();
+            var _disburments = Generatedisburtment();
+            console.log(_disburments)
+            $("#vm").val(JSON.stringify(_disburments))
+            //console.log(JSON.stringify(_disburments))
+            //$.ajax({
+            //    url: 'RetrieveStationery',
+            //    type: 'POST',
+            //    dataType: "json",
+            //    contentType: 'application/json',
+            //    data: JSON.stringify(_disburments)
+            //});
+            //location.reload();
+            $('form').submit();
+        });
+
+        /* handling manual key in actual qty */
+
+        var oldActualQty = 0;
+        $("input.actualQty").focusin(function () {
+            oldActualQty = $(this).val();
+        });
+
+        $("input.actualQty").keyup(function () {
+            var currentActualQty = parseInt($(this).val());
+            var anotherActualQty = 0;
+            if ($(this).parent().parent().next().is('tr')) {//from txt to td to <tr>
+                anotherActualQty = $(this).parent() //move to <td>
+                    .parent() //move to <tr>
+                    .next().find("input#actualQty").val();
+            } else if ($(this).parent().parent().prev().is('tr')) {
+                anotherActualQty = $(this).parent() //move to <td>
+                    .parent() //move to <tr>
+                    .prev().find("input#actualQty").val();
+            }
+
+            var QtyOnHand = $(this).parents("#mainCol").parent().data("totalqtyonhandId");
+            var sumTotalActualQty = currentActualQty + parseInt(anotherActualQty);
+            if (sumTotalActualQty > parseInt(QtyOnHand)) {
+                alert("hey actual qty are exceed than qty on hand");
+                $(this).val(oldActualQty);
+            } else {
+                $(this).parents("#mainCol").prev().text(sumTotalActualQty);
+            }
+
+        });
+    });
+
+</script>

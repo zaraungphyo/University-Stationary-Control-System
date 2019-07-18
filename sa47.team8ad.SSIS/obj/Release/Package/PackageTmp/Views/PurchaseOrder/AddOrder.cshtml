@@ -1,0 +1,130 @@
+﻿@model sa47.team8ad.SSIS.Models.ItemViewModel
+@{
+    ViewBag.Title = "Add Item To Purchase";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Add Item to Order</h3>
+    </div>
+    <div class="box-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                @Html.HiddenFor(model=>model.ItemId)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ItemDescription, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.ItemDescription, new { htmlAttributes = new { @class = "form-control", @list = "dlItemDescription",@required="required" } })
+
+                        <datalist id="dlItemDescription" name="ItemDescription"></datalist>
+                        @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReorderLevel, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ReorderLevel, htmlAttributes: new { @class = "form-control",@readonly="readonly" })
+                        @Html.ValidationMessageFor(model => model.ReorderLevel, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ReorderQuantity, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.ReorderQuantity, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.ReorderQuantity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.QuantityOnHand, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.QuantityOnHand, htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.QuantityOnHand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UnitId, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(x => x.UnitId,ViewBag.UnitId as IEnumerable<SelectListItem>
+                               , htmlAttributes: new { @class = "form-control", @readonly = "readonly",@disabled="disabled" })
+
+                        @Html.ValidationMessageFor(model => model.UnitId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.supplierId, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(x => x.supplierId, ViewBag.bindSuppliers as IEnumerable<SelectListItem>
+                                  , htmlAttributes: new { @class = "form-control",@required = "required" })
+                        @Html.ValidationMessageFor(model => model.supplierId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-10">
+                        @Html.ActionLink("Back", "GenerateOrder", null, new { @class = "btn btn-danger" })
+                        <input type="submit" value="Add" class="btn btn-success" />
+                    </div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var items = [];
+        $.ajax({
+            url: 'itemsAutoComplete',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data, statusCode) {
+                items = data;
+                console.log(items);
+                $.each(data, function (key, values) {
+                    $("#dlItemDescription").append($("<option>").attr('data-value', values.ItemId).text(values.ItemDescription));
+                });
+            }
+        });
+
+        $('#ItemDescription').change(function () {
+            var val = $('#ItemDescription').val()
+            var id = $('#dlItemDescription option').filter(function () {
+                return this.value == val;
+            }).data('value');
+
+            $.grep(items, function (value, key) {
+                if (value.ItemId == id) {
+                    $("#ItemId").val(value.ItemId);
+                    $('#ItemDescription').val(value.ItemDescription);
+                    $('#ReorderLevel').val(value.ReorderLevel);
+                    $('#ReorderQuantity').val(value.ReorderQuantity);
+                    $('#QuantityOnHand').val(value.QuantityOnHand);
+                    $('#UnitId').val(value.UnitId); 
+                  //  $('#supplierId').val(value.supplierId);
+                }
+            });
+            //$.ajax({
+            //    url: 'itemsAutoComplete/'+id,
+            //    type: 'GET',
+            //    contentType: 'application/json; charset=utf-8',
+            //    success: function (data, statusCode) {
+            //        $.each(data, function (key, values) {
+            //            $("#dlItemDescription").append($("<option>").attr('data-value', values.ItemId).text(values.ItemDescription));
+            //        });
+            //    }
+            //});
+        });
+    });
+</script>

@@ -1,0 +1,90 @@
+﻿@model sa47.team8ad.SSIS.Models.TrendAnalysisViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "GenerateTrendAnalysisReport";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Generate Stationery Requisition Trend Analysis Report</h3>
+    </div>
+    <div class="box-body">
+        @using (Html.BeginForm("GenerateTrendAnalysisReport", "TrendAnalysisReport", FormMethod.Post, new { @class = "form-horizontal", target = "srtar_iframe" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.DepartmentIds, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
+                    @Html.ListBoxFor(depts => depts.DepartmentIds, ViewBag.bindDepartments as IEnumerable<SelectListItem>
+         , htmlAttributes: new{  @class = "form-control", size = "5"})
+                    @Html.ValidationMessageFor(depts => depts.DepartmentIds, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ItemId, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
+                    @*@Html.DropDownListFor(y => y.ItemId, ViewBag.bindItems as IEnumerable<SelectListItem>, "-Select Item-",
+                    htmlAttributes: new{ @class = "form-control"})
+                     @Html.ValidationMessageFor(m => m.ItemId, "", new { @class = "text-danger" })*@
+                    @Html.HiddenFor(s => s.ItemId)
+                    @Html.TextBox("ItemDescription", null, new { @class = "form-control", @list = "dlItemName" })
+                    <datalist id="dlItemName"></datalist>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.StartDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(x => x.StartDate, htmlAttributes: new { @class = "form-control", @type = "Date" })
+                    @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.EndDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(x => x.EndDate, htmlAttributes: new { @class = "form-control", @type = "Date" })
+                    @Html.ValidationMessageFor(m => m.EndDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-md-4">
+                    <input type="submit" value="Generate Report" class="btn btn-success" />
+                </div>
+            </div>
+            if (IsPost)
+            {
+                <div>
+                    <iframe name="srtar_iframe" src="@Url.Action("GenerateTrendAnalysisReport", "TrendAnalysisReport")" height="500" width="100%"></iframe>
+                </div>
+            }
+        }   
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url:'@Url.Action("itemsAutoComplete", "PurchaseOrder")',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data, statusCode) {
+                items = data;
+                $.each(data, function (key, values) {
+                    $("#dlItemName").append($("<option>").attr('data-value', values.ItemId).text(values.ItemDescription));
+                });
+            }
+        });
+        $('#ItemDescription').change(function () {
+            var val = $('#ItemDescription').val();
+            var id = $('#dlItemName option').filter(function () {
+                return this.value == val;
+            }).data('value');
+            $("#ItemId").val(id);
+        });
+    });
+
+</script>

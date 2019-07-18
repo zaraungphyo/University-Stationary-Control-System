@@ -1,0 +1,90 @@
+﻿
+@using sa47.team8ad.SSIS.Models
+@model DelegateViewModel
+@{
+                /**/
+
+
+                ViewBag.Title = "Delegate Authority";
+}
+
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["message"]</strong>
+    </div>
+}
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["errorMessage"]</strong>
+    </div>
+}
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Delegate Authority</h3>
+    </div>
+    <div class="box-body">
+        <div class="col-md-12">
+            @using (Html.BeginForm("delegateAuthority", "Delegate", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Id, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(x => x.Id, ViewBag.bindEmployees as IEnumerable<SelectListItem>
+                        , htmlAttributes: new { @class = "form-control" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AuthorityStartDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(x => x.AuthorityStartDate, htmlAttributes: new { @class = "form-control", @type = "Date" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AuthorityEndDate, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(x => x.AuthorityEndDate, htmlAttributes: new { @class = "form-control", @type = "Date" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Remark, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @*<div class="checkbox">
+                                <label class="checkbox-inline">
+                                    @Html.RadioButtonFor(x => x.Remark, "On Leave", new { Checked = "checked" }) <i>On Leave</i>
+                                </label>
+                                <label class="checkbox-inline">
+                                    @Html.RadioButtonFor(x => x.Remark, "On Course") <i>On Course</i>
+                                </label>
+                                <label class="checkbox-inline">
+                                    @Html.RadioButtonFor(x => x.Remark, "Other") <i>Other</i>
+                                </label>
+                            </div>*@
+
+                        @Html.TextBoxFor(x => x.Remark, htmlAttributes: new { @class = "form-control" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-4">
+                        <button name="submit" class="btn btn-danger" type="reset">
+                            Reset
+                        </button>
+                        <button name="submit" class="btn btn-success" type="submit">
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            }
+            @*</div>*@
+        </div>
+    </div>
+</div>

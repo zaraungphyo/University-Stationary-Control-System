@@ -1,0 +1,64 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.ItemRequisitionViewModel>
+@{
+    ViewBag.Title = "ApproveOrReject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["message"]</strong>
+    </div>
+}
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["errorMessage"]</strong>
+    </div>
+}
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Approve/Reject</h3>
+    </div>
+    <div class="box-body">
+        <div class="text-sm-center">
+
+            <table id="bootstrap-data-table" class="table table-striped table-bordered">
+
+                <thead class="table-info">
+                    <tr>
+                        <th>Requested By</th>
+                        <th>Requested Date</th>
+                        @*<th>Total Number of Item Requests</th>*@
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var itemRequesitions in Model)
+                    {
+                        <tr>
+                            <td>@itemRequesitions.Employee.EmployeeName</td>
+                            <td>@itemRequesitions.RequisitionDate</td>
+                            <td>
+                                @Html.ActionLink("View Details", "ViewItemRequistionDetails", new { id = itemRequesitions.RequisitionId },new { @class="btn btn-success"})
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#bootstrap-data-table").DataTable()
+    });
+</script>

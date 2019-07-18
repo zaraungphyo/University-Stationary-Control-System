@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestAPI", "RestAPI\RestAPI.csproj", "{BCF532B0-61D8-42BF-A70A-ABB058C92A1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sa47.team8ad.SSIS", "sa47.team8ad.SSIS\sa47.team8ad.SSIS.csproj", "{8D9F1BDB-5D25-4134-9EBF-1FE99F7300E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BCF532B0-61D8-42BF-A70A-ABB058C92A1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCF532B0-61D8-42BF-A70A-ABB058C92A1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCF532B0-61D8-42BF-A70A-ABB058C92A1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCF532B0-61D8-42BF-A70A-ABB058C92A1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D9F1BDB-5D25-4134-9EBF-1FE99F7300E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D9F1BDB-5D25-4134-9EBF-1FE99F7300E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D9F1BDB-5D25-4134-9EBF-1FE99F7300E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D9F1BDB-5D25-4134-9EBF-1FE99F7300E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {12542A6B-36F3-4258-87FF-81E0748673F6}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 3
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://zaraungphyo_pc/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = sa47.team8ad.SSIS\\sa47.team8ad.SSIS.csproj
+		SccProjectName1 = sa47.team8ad.SSIS
+		SccLocalPath1 = sa47.team8ad.SSIS
+		SccProjectUniqueName2 = RestAPI\\RestAPI.csproj
+		SccProjectName2 = RestAPI
+		SccLocalPath2 = RestAPI
+	EndGlobalSection
+EndGlobal

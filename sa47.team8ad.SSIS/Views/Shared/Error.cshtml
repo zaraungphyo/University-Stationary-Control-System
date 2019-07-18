@@ -1,0 +1,39 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    /**/
+
+    ViewBag.Title = (!String.IsNullOrEmpty(ViewBag.StatusCode)) ? ViewBag.StatusCode : "500 Error";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title text-danger">Error</h3>
+    </div>
+    <div class="box-body">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h2 class="text-danger">An error occurred while processing your request.</h2>
+            </div>
+            <div class="panel-body">
+                @{
+                    if (Convert.ToString(ViewBag.errorMessage).Contains("expired"))
+                    {
+                        <h2 class="error">@ViewBag.errorMessage</h2>
+                        <h3>Please <a href="~/Account/Login">Login</a> again.</h3>
+                    }
+                    else if (Convert.ToString(ViewBag.errorMessage).Contains("?"))
+                    {
+                        string[] action = Convert.ToString(ViewBag.errorMessage).Split('?');
+                        <h2 class="error">@(!String.IsNullOrEmpty(ViewBag.StatusCode) ? ViewBag.StatusCode : "500 Error") : @action[0]</h2>
+                        <a href="~/@action[1]" class="btn btn-danger"> Back </a>
+                    }
+                    else
+                    {
+                        <h2 class="error">@(!String.IsNullOrEmpty(ViewBag.StatusCode) ? ViewBag.StatusCode : "500 Error") : @ViewBag.errorMessage</h2>
+                    }
+                }
+            </div>
+        </div>    
+    </div>
+</div>

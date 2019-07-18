@@ -1,0 +1,92 @@
+﻿@using sa47.team8ad.SSIS.Models
+@model ItemRequisitionDetailViewModel
+@{
+    ViewBag.Title = "AddItem";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["message"]</strong>
+    </div>
+}
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["errorMessage"]</strong>
+    </div>
+}
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">
+            Request Item
+        </h3>
+    </div>
+    <div class="box-body">
+        @using (Html.BeginForm("AddItem", "SubmitRequisitionForm", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(x => x.ItemId, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
+                    @*@Html.DropDownListFor(x => x.ItemId, new SelectList(ViewBag.ItemDropDown,"ItemId","ItemDescription")
+                        , htmlAttributes: new { @class = "form-control" })*@
+                    @Html.HiddenFor(x => x.ItemId)
+                    <input type="text" class="form-control" id="ItemDescription" list="dlItemDescription" />
+                    <datalist id="dlItemDescription"></datalist>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.NeededQuantity, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(x => x.NeededQuantity, htmlAttributes: new { @class = "form-control",
+                   type = "number", min = "1", required="required" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-4 col-md-10">
+                    <button name="submit" value="Cancel" class="btn btn-danger" type="submit">
+                        Cancel
+                    </button>
+                    <button name="submit" value="Add" class="btn btn-success" type="submit" align="center">
+                        Add Item
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+@*<script src="~/Scripts/bootstrap.js"></script>*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        var items = [];
+        $.ajax({
+            url: '@Url.Action("itemsAutoComplete", "PurchaseOrder")',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data, statusCode) {
+                items = data;
+                $.each(data, function (key, values) {
+                    $("#dlItemDescription").append($("<option>").attr('data-value', values.ItemId).text(values.ItemDescription));
+                });
+            }
+        });
+
+        $('#ItemDescription').change(function () {
+            var val = $('#ItemDescription').val();
+            var id = $('#dlItemDescription option').filter(function () {
+                return this.value == val;
+            }).data('value');
+
+            $("#ItemId").val(id);
+        });
+    });
+</script>

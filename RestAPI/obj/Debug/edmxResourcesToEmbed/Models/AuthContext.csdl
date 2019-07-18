@@ -1,0 +1,444 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Team8LogicUniversityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CATGY_C" />
+    </Key>
+    <Property Name="CATGY_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CATGY_M" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Items" Relationship="Self.FK_Item_Category" FromRole="Category" ToRole="Item" />
+  </EntityType>
+  <EntityType Name="CollectionPoint">
+    <Key>
+      <PropertyRef Name="COLLECTION_POINT_C" />
+    </Key>
+    <Property Name="COLLECTION_POINT_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="COLLECTION_POINT_ADDR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="COLLECTION_H" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Department">
+    <Key>
+      <PropertyRef Name="DEPT_C" />
+    </Key>
+    <Property Name="DEPT_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DEPT_M" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CNTCT_M" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PHONE_N" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="FAX_N" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="COLLECTION_POINT_ID" Type="Int32" />
+    <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="EMP_C" />
+    </Key>
+    <Property Name="EMP_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EMP_M" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EMP_JOB_T" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="MTH_SAL_A" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="DEPT_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="REP_STATUS" Type="Int32" />
+    <Property Name="STATUS" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="REMARKS" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
+    <NavigationProperty Name="ItemAdjustments" Relationship="Self.FK_ItemAdjustment_Employee" FromRole="Employee" ToRole="ItemAdjustment" />
+    <NavigationProperty Name="ItemRequistions" Relationship="Self.FK_ItemRequistion_Employee" FromRole="Employee" ToRole="ItemRequistion" />
+    <NavigationProperty Name="PurchaseOrders" Relationship="Self.FK_PurchaseOrder_Employee" FromRole="Employee" ToRole="PurchaseOrder" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="ITEM_C" />
+    </Key>
+    <Property Name="ITEM_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CATGY_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ITEM_DESC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="REORDER_LEVEL" Type="Int32" Nullable="false" />
+    <Property Name="REORDER_Q" Type="Int32" Nullable="false" />
+    <Property Name="ON_HAND_Q" Type="Int32" Nullable="false" />
+    <Property Name="UNIT_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LOC_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="REMARK" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Category" Relationship="Self.FK_Item_Category" FromRole="Item" ToRole="Category" />
+    <NavigationProperty Name="ItemLocation" Relationship="Self.FK_Item_ItemLocation" FromRole="Item" ToRole="ItemLocation" />
+    <NavigationProperty Name="MeasurementUnit" Relationship="Self.FK_Item_MeasurementUnit" FromRole="Item" ToRole="MeasurementUnit" />
+    <NavigationProperty Name="ItemAdjustments" Relationship="Self.FK_ItemAdjustment_Item" FromRole="Item" ToRole="ItemAdjustment" />
+    <NavigationProperty Name="ItemRequisitionDetails" Relationship="Self.FK_ItemRequisitionDetail_Item" FromRole="Item" ToRole="ItemRequisitionDetail" />
+    <NavigationProperty Name="SupplierItems" Relationship="Self.FK_SupplierItem_Item" FromRole="Item" ToRole="SupplierItem" />
+  </EntityType>
+  <EntityType Name="ItemAdjustment">
+    <Key>
+      <PropertyRef Name="ITEM_ADJUST_C" />
+    </Key>
+    <Property Name="ITEM_ADJUST_C" Type="Int32" Nullable="false" />
+    <Property Name="ITEM_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ADJUST_Q" Type="Int32" Nullable="false" />
+    <Property Name="REASON" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ITEM_ADJUST_D" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EMP_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_ItemAdjustment_Employee" FromRole="ItemAdjustment" ToRole="Employee" />
+    <NavigationProperty Name="Item" Relationship="Self.FK_ItemAdjustment_Item" FromRole="ItemAdjustment" ToRole="Item" />
+  </EntityType>
+  <EntityType Name="ItemLocation">
+    <Key>
+      <PropertyRef Name="LOC_C" />
+    </Key>
+    <Property Name="LOC_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="LOC_DESC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Items" Relationship="Self.FK_Item_ItemLocation" FromRole="ItemLocation" ToRole="Item" />
+  </EntityType>
+  <EntityType Name="ItemRequisitionDetail">
+    <Key>
+      <PropertyRef Name="REQUISITION_DETAIL_C" />
+    </Key>
+    <Property Name="REQUISITION_DETAIL_C" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ITEM_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="REQUISITION_C" Type="Int32" Nullable="false" />
+    <Property Name="NEEDED_Q" Type="Int32" Nullable="false" />
+    <Property Name="ACTUAL_Q" Type="Int32" Nullable="false" />
+    <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RETRIVAL_D" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="REMARK" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Item" Relationship="Self.FK_ItemRequisitionDetail_Item" FromRole="ItemRequisitionDetail" ToRole="Item" />
+    <NavigationProperty Name="ItemRequistion" Relationship="Self.FK_ItemRequisitionDetail_ItemRequistion" FromRole="ItemRequisitionDetail" ToRole="ItemRequistion" />
+  </EntityType>
+  <EntityType Name="ItemRequistion">
+    <Key>
+      <PropertyRef Name="REQUISITION_C" />
+    </Key>
+    <Property Name="REQUISITION_C" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EMP_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="REQUISTION_D" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="APPROVE_STATUS" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="STATUS" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="APPROVE_D" Type="DateTime" Precision="0" />
+    <Property Name="RECEIVE_D" Type="DateTime" Precision="0" />
+    <Property Name="REMARK" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_ItemRequistion_Employee" FromRole="ItemRequistion" ToRole="Employee" />
+    <NavigationProperty Name="ItemRequisitionDetails" Relationship="Self.FK_ItemRequisitionDetail_ItemRequistion" FromRole="ItemRequistion" ToRole="ItemRequisitionDetail" />
+  </EntityType>
+  <EntityType Name="MeasurementUnit">
+    <Key>
+      <PropertyRef Name="UNIT_C" />
+    </Key>
+    <Property Name="UNIT_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UNIT_M" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UNIT_Q" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Items" Relationship="Self.FK_Item_MeasurementUnit" FromRole="MeasurementUnit" ToRole="Item" />
+    <NavigationProperty Name="SupplierItems" Relationship="Self.FK_SupplierItem_MeasurementUnit" FromRole="MeasurementUnit" ToRole="SupplierItem" />
+  </EntityType>
+  <EntityType Name="PurchaseOrder">
+    <Key>
+      <PropertyRef Name="PO_C" />
+    </Key>
+    <Property Name="PO_C" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EMP_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PO_D" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="EXPECT_D" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="STATUS" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="REMARK" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Employee" Relationship="Self.FK_PurchaseOrder_Employee" FromRole="PurchaseOrder" ToRole="Employee" />
+    <NavigationProperty Name="PurchaseOrderDetails" Relationship="Self.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrder" ToRole="PurchaseOrderDetail" />
+  </EntityType>
+  <EntityType Name="PurchaseOrderDetail">
+    <Key>
+      <PropertyRef Name="PO_DETAIL_C" />
+    </Key>
+    <Property Name="PO_DETAIL_C" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SUPPLIER_ITEM_C" Type="Int32" Nullable="false" />
+    <Property Name="PO_ITEM_Q" Type="Int32" Nullable="false" />
+    <Property Name="PO_C" Type="Int32" Nullable="false" />
+    <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="REMARK" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="PurchaseOrder" Relationship="Self.FK_PurchaseOrderDetail_PurchaseOrder" FromRole="PurchaseOrderDetail" ToRole="PurchaseOrder" />
+    <NavigationProperty Name="SupplierItem" Relationship="Self.FK_PurchaseOrderDetail_SupplierItem" FromRole="PurchaseOrderDetail" ToRole="SupplierItem" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="SUPPLIER_C" />
+    </Key>
+    <Property Name="SUPPLIER_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SUPPLIER_M" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CNTCT_M" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PHONE_N" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FAX_N" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ADDR" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="GST_REGISTRATION_N" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="REMARK" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SupplierItems" Relationship="Self.FK_SupplierItem_Supplier" FromRole="Supplier" ToRole="SupplierItem" />
+  </EntityType>
+  <EntityType Name="SupplierItem">
+    <Key>
+      <PropertyRef Name="SUPPLIER_ITEM_C" />
+    </Key>
+    <Property Name="SUPPLIER_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ITEM_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TENDER_PRICE" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="UNIT_C" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SUPPLIER_ITEM_C" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="STATUS" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="REMARK" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Item" Relationship="Self.FK_SupplierItem_Item" FromRole="SupplierItem" ToRole="Item" />
+    <NavigationProperty Name="MeasurementUnit" Relationship="Self.FK_SupplierItem_MeasurementUnit" FromRole="SupplierItem" ToRole="MeasurementUnit" />
+    <NavigationProperty Name="PurchaseOrderDetails" Relationship="Self.FK_PurchaseOrderDetail_SupplierItem" FromRole="SupplierItem" ToRole="PurchaseOrderDetail" />
+    <NavigationProperty Name="Supplier" Relationship="Self.FK_SupplierItem_Supplier" FromRole="SupplierItem" ToRole="Supplier" />
+  </EntityType>
+  <Association Name="FK_Item_Category">
+    <End Role="Category" Type="Self.Category" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CATGY_C" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="CATGY_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Department">
+    <End Role="Department" Type="Self.Department" Multiplicity="1" />
+    <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Department">
+        <PropertyRef Name="DEPT_C" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="DEPT_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ItemAdjustment_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="ItemAdjustment" Type="Self.ItemAdjustment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EMP_C" />
+      </Principal>
+      <Dependent Role="ItemAdjustment">
+        <PropertyRef Name="EMP_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ItemRequistion_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="ItemRequistion" Type="Self.ItemRequistion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EMP_C" />
+      </Principal>
+      <Dependent Role="ItemRequistion">
+        <PropertyRef Name="EMP_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseOrder_Employee">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+    <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EMP_C" />
+      </Principal>
+      <Dependent Role="PurchaseOrder">
+        <PropertyRef Name="EMP_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Item_ItemLocation">
+    <End Role="ItemLocation" Type="Self.ItemLocation" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ItemLocation">
+        <PropertyRef Name="LOC_C" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="LOC_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Item_MeasurementUnit">
+    <End Role="MeasurementUnit" Type="Self.MeasurementUnit" Multiplicity="1" />
+    <End Role="Item" Type="Self.Item" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MeasurementUnit">
+        <PropertyRef Name="UNIT_C" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="UNIT_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ItemAdjustment_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="1" />
+    <End Role="ItemAdjustment" Type="Self.ItemAdjustment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ITEM_C" />
+      </Principal>
+      <Dependent Role="ItemAdjustment">
+        <PropertyRef Name="ITEM_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ItemRequisitionDetail_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="1" />
+    <End Role="ItemRequisitionDetail" Type="Self.ItemRequisitionDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ITEM_C" />
+      </Principal>
+      <Dependent Role="ItemRequisitionDetail">
+        <PropertyRef Name="ITEM_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierItem_Item">
+    <End Role="Item" Type="Self.Item" Multiplicity="1" />
+    <End Role="SupplierItem" Type="Self.SupplierItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="ITEM_C" />
+      </Principal>
+      <Dependent Role="SupplierItem">
+        <PropertyRef Name="ITEM_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ItemRequisitionDetail_ItemRequistion">
+    <End Role="ItemRequistion" Type="Self.ItemRequistion" Multiplicity="1" />
+    <End Role="ItemRequisitionDetail" Type="Self.ItemRequisitionDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ItemRequistion">
+        <PropertyRef Name="REQUISITION_C" />
+      </Principal>
+      <Dependent Role="ItemRequisitionDetail">
+        <PropertyRef Name="REQUISITION_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierItem_MeasurementUnit">
+    <End Role="MeasurementUnit" Type="Self.MeasurementUnit" Multiplicity="1" />
+    <End Role="SupplierItem" Type="Self.SupplierItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MeasurementUnit">
+        <PropertyRef Name="UNIT_C" />
+      </Principal>
+      <Dependent Role="SupplierItem">
+        <PropertyRef Name="ITEM_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseOrderDetail_PurchaseOrder">
+    <End Role="PurchaseOrder" Type="Self.PurchaseOrder" Multiplicity="1" />
+    <End Role="PurchaseOrderDetail" Type="Self.PurchaseOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PurchaseOrder">
+        <PropertyRef Name="PO_C" />
+      </Principal>
+      <Dependent Role="PurchaseOrderDetail">
+        <PropertyRef Name="PO_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PurchaseOrderDetail_SupplierItem">
+    <End Role="SupplierItem" Type="Self.SupplierItem" Multiplicity="1" />
+    <End Role="PurchaseOrderDetail" Type="Self.PurchaseOrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SupplierItem">
+        <PropertyRef Name="SUPPLIER_ITEM_C" />
+      </Principal>
+      <Dependent Role="PurchaseOrderDetail">
+        <PropertyRef Name="SUPPLIER_ITEM_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SupplierItem_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="1" />
+    <End Role="SupplierItem" Type="Self.SupplierItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="SUPPLIER_C" />
+      </Principal>
+      <Dependent Role="SupplierItem">
+        <PropertyRef Name="SUPPLIER_C" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Team8LogicUniversityEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="CollectionPoints" EntityType="Self.CollectionPoint" />
+    <EntitySet Name="Departments" EntityType="Self.Department" />
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="Items" EntityType="Self.Item" />
+    <EntitySet Name="ItemAdjustments" EntityType="Self.ItemAdjustment" />
+    <EntitySet Name="ItemLocations" EntityType="Self.ItemLocation" />
+    <EntitySet Name="ItemRequisitionDetails" EntityType="Self.ItemRequisitionDetail" />
+    <EntitySet Name="ItemRequistions" EntityType="Self.ItemRequistion" />
+    <EntitySet Name="MeasurementUnits" EntityType="Self.MeasurementUnit" />
+    <EntitySet Name="PurchaseOrders" EntityType="Self.PurchaseOrder" />
+    <EntitySet Name="PurchaseOrderDetails" EntityType="Self.PurchaseOrderDetail" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <EntitySet Name="SupplierItems" EntityType="Self.SupplierItem" />
+    <AssociationSet Name="FK_Item_Category" Association="Self.FK_Item_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Item" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
+      <End Role="Department" EntitySet="Departments" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ItemAdjustment_Employee" Association="Self.FK_ItemAdjustment_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="ItemAdjustment" EntitySet="ItemAdjustments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ItemRequistion_Employee" Association="Self.FK_ItemRequistion_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="ItemRequistion" EntitySet="ItemRequistions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseOrder_Employee" Association="Self.FK_PurchaseOrder_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Item_ItemLocation" Association="Self.FK_Item_ItemLocation">
+      <End Role="ItemLocation" EntitySet="ItemLocations" />
+      <End Role="Item" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Item_MeasurementUnit" Association="Self.FK_Item_MeasurementUnit">
+      <End Role="MeasurementUnit" EntitySet="MeasurementUnits" />
+      <End Role="Item" EntitySet="Items" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ItemAdjustment_Item" Association="Self.FK_ItemAdjustment_Item">
+      <End Role="Item" EntitySet="Items" />
+      <End Role="ItemAdjustment" EntitySet="ItemAdjustments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ItemRequisitionDetail_Item" Association="Self.FK_ItemRequisitionDetail_Item">
+      <End Role="Item" EntitySet="Items" />
+      <End Role="ItemRequisitionDetail" EntitySet="ItemRequisitionDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierItem_Item" Association="Self.FK_SupplierItem_Item">
+      <End Role="Item" EntitySet="Items" />
+      <End Role="SupplierItem" EntitySet="SupplierItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ItemRequisitionDetail_ItemRequistion" Association="Self.FK_ItemRequisitionDetail_ItemRequistion">
+      <End Role="ItemRequistion" EntitySet="ItemRequistions" />
+      <End Role="ItemRequisitionDetail" EntitySet="ItemRequisitionDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierItem_MeasurementUnit" Association="Self.FK_SupplierItem_MeasurementUnit">
+      <End Role="MeasurementUnit" EntitySet="MeasurementUnits" />
+      <End Role="SupplierItem" EntitySet="SupplierItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseOrderDetail_PurchaseOrder" Association="Self.FK_PurchaseOrderDetail_PurchaseOrder">
+      <End Role="PurchaseOrder" EntitySet="PurchaseOrders" />
+      <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PurchaseOrderDetail_SupplierItem" Association="Self.FK_PurchaseOrderDetail_SupplierItem">
+      <End Role="SupplierItem" EntitySet="SupplierItems" />
+      <End Role="PurchaseOrderDetail" EntitySet="PurchaseOrderDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SupplierItem_Supplier" Association="Self.FK_SupplierItem_Supplier">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="SupplierItem" EntitySet="SupplierItems" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

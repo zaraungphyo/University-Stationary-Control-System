@@ -1,0 +1,94 @@
+﻿@model sa47.team8ad.SSIS.Models.DepartmentViewModel
+
+@{
+    ViewBag.Title = "Collection Point";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["message"]</strong>
+    </div>
+}
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["errorMessage"]</strong>
+    </div>
+}
+
+
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Collection Point</h3>
+    </div>
+    <div class="box-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.DepartmentId)
+
+                <div class="form-group">
+                    @Html.Label("Current Collection Point :", htmlAttributes: new { @class = "control-label col-sm-3" })
+                    <div class="col-sm-9">
+                        @Html.DisplayFor(model => model.CollectionPoint.CollectionPointAddress, new { htmlAttributes = new { @class = "control-label" } })
+                        @Html.ValidationMessageFor(model => model.CollectionPoint.CollectionPointAddress, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    @Html.Label("Pick New Collection Point : ", htmlAttributes: new { @class = "control-label col-sm-3" })
+                    <div class="col-xs-9">
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButton("Place", "1") Stationery Store - Administration Building
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButton("Place", "2") Management School
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButton("Place", "3") Medical School
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButton("Place", "4") Engineering School
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButton("Place", "5") Science School
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                @Html.RadioButton("Place", "6") University Hospital
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-10">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Team8LogicUniversityModelStoreContainer" CdmEntityContainer="Team8LogicUniversityEntities">
+    <EntitySetMapping Name="Categories">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.Category">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="CATGY_C" ColumnName="CATGY_C" />
+          <ScalarProperty Name="CATGY_M" ColumnName="CATGY_M" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CollectionPoints">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.CollectionPoint">
+        <MappingFragment StoreEntitySet="CollectionPoint">
+          <ScalarProperty Name="COLLECTION_POINT_C" ColumnName="COLLECTION_POINT_C" />
+          <ScalarProperty Name="COLLECTION_POINT_ADDR" ColumnName="COLLECTION_POINT_ADDR" />
+          <ScalarProperty Name="COLLECTION_H" ColumnName="COLLECTION_H" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Departments">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.Department">
+        <MappingFragment StoreEntitySet="Department">
+          <ScalarProperty Name="DEPT_C" ColumnName="DEPT_C" />
+          <ScalarProperty Name="DEPT_M" ColumnName="DEPT_M" />
+          <ScalarProperty Name="CNTCT_M" ColumnName="CNTCT_M" />
+          <ScalarProperty Name="PHONE_N" ColumnName="PHONE_N" />
+          <ScalarProperty Name="FAX_N" ColumnName="FAX_N" />
+          <ScalarProperty Name="COLLECTION_POINT_ID" ColumnName="COLLECTION_POINT_ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="EMP_C" ColumnName="EMP_C" />
+          <ScalarProperty Name="EMP_M" ColumnName="EMP_M" />
+          <ScalarProperty Name="EMP_JOB_T" ColumnName="EMP_JOB_T" />
+          <ScalarProperty Name="MTH_SAL_A" ColumnName="MTH_SAL_A" />
+          <ScalarProperty Name="DEPT_C" ColumnName="DEPT_C" />
+          <ScalarProperty Name="REP_STATUS" ColumnName="REP_STATUS" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="REMARKS" ColumnName="REMARKS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Items">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.Item">
+        <MappingFragment StoreEntitySet="Item">
+          <ScalarProperty Name="ITEM_C" ColumnName="ITEM_C" />
+          <ScalarProperty Name="CATGY_C" ColumnName="CATGY_C" />
+          <ScalarProperty Name="ITEM_DESC" ColumnName="ITEM_DESC" />
+          <ScalarProperty Name="REORDER_LEVEL" ColumnName="REORDER_LEVEL" />
+          <ScalarProperty Name="REORDER_Q" ColumnName="REORDER_Q" />
+          <ScalarProperty Name="ON_HAND_Q" ColumnName="ON_HAND_Q" />
+          <ScalarProperty Name="UNIT_C" ColumnName="UNIT_C" />
+          <ScalarProperty Name="LOC_C" ColumnName="LOC_C" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItemAdjustments">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.ItemAdjustment">
+        <MappingFragment StoreEntitySet="ItemAdjustment">
+          <ScalarProperty Name="ITEM_ADJUST_C" ColumnName="ITEM_ADJUST_C" />
+          <ScalarProperty Name="ITEM_C" ColumnName="ITEM_C" />
+          <ScalarProperty Name="ADJUST_Q" ColumnName="ADJUST_Q" />
+          <ScalarProperty Name="REASON" ColumnName="REASON" />
+          <ScalarProperty Name="ITEM_ADJUST_D" ColumnName="ITEM_ADJUST_D" />
+          <ScalarProperty Name="EMP_C" ColumnName="EMP_C" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItemLocations">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.ItemLocation">
+        <MappingFragment StoreEntitySet="ItemLocation">
+          <ScalarProperty Name="LOC_C" ColumnName="LOC_C" />
+          <ScalarProperty Name="LOC_DESC" ColumnName="LOC_DESC" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItemRequisitionDetails">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.ItemRequisitionDetail">
+        <MappingFragment StoreEntitySet="ItemRequisitionDetail">
+          <ScalarProperty Name="REQUISITION_DETAIL_C" ColumnName="REQUISITION_DETAIL_C" />
+          <ScalarProperty Name="ITEM_C" ColumnName="ITEM_C" />
+          <ScalarProperty Name="REQUISITION_C" ColumnName="REQUISITION_C" />
+          <ScalarProperty Name="NEEDED_Q" ColumnName="NEEDED_Q" />
+          <ScalarProperty Name="ACTUAL_Q" ColumnName="ACTUAL_Q" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="RETRIVAL_D" ColumnName="RETRIVAL_D" />
+          <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItemRequistions">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.ItemRequistion">
+        <MappingFragment StoreEntitySet="ItemRequistion">
+          <ScalarProperty Name="REQUISITION_C" ColumnName="REQUISITION_C" />
+          <ScalarProperty Name="EMP_C" ColumnName="EMP_C" />
+          <ScalarProperty Name="REQUISTION_D" ColumnName="REQUISTION_D" />
+          <ScalarProperty Name="APPROVE_STATUS" ColumnName="APPROVE_STATUS" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="APPROVE_D" ColumnName="APPROVE_D" />
+          <ScalarProperty Name="RECEIVE_D" ColumnName="RECEIVE_D" />
+          <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MeasurementUnits">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.MeasurementUnit">
+        <MappingFragment StoreEntitySet="MeasurementUnit">
+          <ScalarProperty Name="UNIT_C" ColumnName="UNIT_C" />
+          <ScalarProperty Name="UNIT_M" ColumnName="UNIT_M" />
+          <ScalarProperty Name="UNIT_Q" ColumnName="UNIT_Q" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseOrders">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.PurchaseOrder">
+        <MappingFragment StoreEntitySet="PurchaseOrder">
+          <ScalarProperty Name="PO_C" ColumnName="PO_C" />
+          <ScalarProperty Name="EMP_C" ColumnName="EMP_C" />
+          <ScalarProperty Name="PO_D" ColumnName="PO_D" />
+          <ScalarProperty Name="EXPECT_D" ColumnName="EXPECT_D" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PurchaseOrderDetails">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.PurchaseOrderDetail">
+        <MappingFragment StoreEntitySet="PurchaseOrderDetail">
+          <ScalarProperty Name="PO_DETAIL_C" ColumnName="PO_DETAIL_C" />
+          <ScalarProperty Name="SUPPLIER_ITEM_C" ColumnName="SUPPLIER_ITEM_C" />
+          <ScalarProperty Name="PO_ITEM_Q" ColumnName="PO_ITEM_Q" />
+          <ScalarProperty Name="PO_C" ColumnName="PO_C" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Suppliers">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.Supplier">
+        <MappingFragment StoreEntitySet="Supplier">
+          <ScalarProperty Name="SUPPLIER_C" ColumnName="SUPPLIER_C" />
+          <ScalarProperty Name="SUPPLIER_M" ColumnName="SUPPLIER_M" />
+          <ScalarProperty Name="CNTCT_M" ColumnName="CNTCT_M" />
+          <ScalarProperty Name="PHONE_N" ColumnName="PHONE_N" />
+          <ScalarProperty Name="FAX_N" ColumnName="FAX_N" />
+          <ScalarProperty Name="ADDR" ColumnName="ADDR" />
+          <ScalarProperty Name="GST_REGISTRATION_N" ColumnName="GST_REGISTRATION_N" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SupplierItems">
+      <EntityTypeMapping TypeName="Team8LogicUniversityModel.SupplierItem">
+        <MappingFragment StoreEntitySet="SupplierItem">
+          <ScalarProperty Name="SUPPLIER_C" ColumnName="SUPPLIER_C" />
+          <ScalarProperty Name="ITEM_C" ColumnName="ITEM_C" />
+          <ScalarProperty Name="TENDER_PRICE" ColumnName="TENDER_PRICE" />
+          <ScalarProperty Name="UNIT_C" ColumnName="UNIT_C" />
+          <ScalarProperty Name="SUPPLIER_ITEM_C" ColumnName="SUPPLIER_ITEM_C" />
+          <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+          <ScalarProperty Name="REMARK" ColumnName="REMARK" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

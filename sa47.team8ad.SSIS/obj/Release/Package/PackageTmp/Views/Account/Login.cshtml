@@ -1,0 +1,80 @@
+﻿@using sa47.team8ad.SSIS.Models
+@model LoginViewModel
+@{
+    Layout = null;
+}
+<title>Team8 Logic University | SSIS</title>
+<link rel="icon" type="image/png" href="@Url.Content("~/images/logicUniversity.png")" />
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/fonts/font-awesome-4.7.0/css/font-awesome.min.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/fonts/iconic/css/material-design-iconic-font.min.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/vendor/animate/animate.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/vendor/css-hamburgers/hamburgers.min.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/vendor/animsition/css/animsition.min.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/vendor/select2/select2.min.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/vendor/daterangepicker/daterangepicker.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/util.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/css/main.css")">
+
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <!--==================Validator included in js for filling in username & password=====================================-->
+
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal login100-form validate-form", role = "form" }))
+            {
+
+                @Html.AntiForgeryToken()
+                <span class="login100-form-logo">
+                    @*<i class="zmdi zmdi-case-check"></i>*@
+                    <img src="~/images/logicUniversity.png" class="img-circle img-responsive" width="80" height="90" />
+                </span>
+
+                <span class="login100-form-title p-b-34 p-t-27">
+                    Log in
+                </span>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter username">
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "input100", @placeholder = "Username" })
+                    <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Enter password">
+                    @Html.PasswordFor(m => m.Password, new { @class = "input100", @placeholder = "Password" })
+                    <span class="focus-input100" data-placeholder="&#xf191;"></span>
+                </div>
+
+                <!--====================== Comment this Comment Feature out if not using; Remember Me in session state ==================================-->
+                <div class="contact100-form-checkbox">
+                    <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                    <label class="label-checkbox100" for="ckb1">
+                        Remember me
+                    </label>
+                </div>
+                <!--===============================================================================================-->
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn">
+                        Login
+                    </button>
+                </div>
+
+                <div class="text-center p-t-90">
+                    <a class="txt1" href="#">
+                        Forgot Password?
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script src="~/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="~/vendor/animsition/js/animsition.min.js"></script>
+<script src="~/vendor/select2/select2.min.js"></script>
+<script src="~/vendor/daterangepicker/moment.min.js"></script>
+<script src="~/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="~/vendor/countdowntime/countdowntime.js"></script>
+<script src="~/Scripts/js/main.js"></script>
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

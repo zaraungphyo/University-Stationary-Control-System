@@ -1,0 +1,400 @@
+﻿@using sa47.team8ad.SSIS.Models
+@{EmployeeViewModel user = (EmployeeViewModel)Session["currentUser"]; }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="~/images/logicUniversity.png" type="image/x-icon" />
+    <title>Team8 Logic University | SSIS</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+    <!-- Bootstrap 3.3.7 -->
+    @*<link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">*@
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link href="~/Content/fonts/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <!-- Ionicons -->
+    <link href="~/Content/ionicons.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/Content/AdminLTE.min.css" rel="stylesheet" />
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link href="~/Content/_all-skins.min.css" rel="stylesheet" />
+    <!-- Morris chart -->
+    <link href="~/Content/morris.css" rel="stylesheet" />
+    <!-- jvectormap -->
+    <link href="~/Content/jquery-jvectormap.css" rel="stylesheet" />
+    <!-- Date Picker -->
+    <link href="~/Content/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <!-- Daterange picker -->
+    <link href="~/Content/daterangepicker.css" rel="stylesheet" />
+    <link href="~/Content/all.css" rel="stylesheet" /><!--iCheck/all.css-->
+    @*   <link href="~/Content/minimal/_all.css" rel="stylesheet" />
+        <link href="~/Content/square/_all.css" rel="stylesheet" />
+        <link href="~/Content/flat/_all.css" rel="stylesheet" />
+        <link href="~/Content/line/_all.css" rel="stylesheet" />
+        <link href="~/Content/polaris/polaris.css" rel="stylesheet" />
+        <link href="~/Content/futurico/futurico.css" rel="stylesheet" />*@
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link href="~/Content/bootstrap3-wysihtml5.min.css" rel="stylesheet" />
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="javascript:;" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>SSIS</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Logic University</b></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-warning">10</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have 10 notifications</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the
+                                                page and may cause design problems
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">View all</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="~/images/avatar5.png" class="user-image" alt="User Image" />
+                                <span class="hidden-xs">@user.EmployeeName</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="~/images/avatar5.png" class="user-image" alt="User Image" />
+
+                                    <p>
+                                        @user.EmployeeName - @user.Roles.Select(s => s.RoleName).FirstOrDefault()
+                                        <small>Joined since Nov. 2012</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body">
+                                    <div class="row">
+                                        <div class="col-xs-4 text-center">
+                                            <a href="#">Followers</a>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <a href="#">Sales</a>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <a href="#">Friends</a>
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="~/Account/UserProfile" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="~/Account/LogOff" class="btn btn-default btn-flat">
+                                            <i class="fa fa-sign-out"></i> <span>Sign Out</span>
+                                        </a>
+
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                        <li>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="~/images/avatar5.png" class="user-image" alt="User Image" />
+                    </div>
+                    <div class="pull-left info">
+                        <p>@user.EmployeeName</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                </div>
+                <!-- search form -->
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control" placeholder="Search...">
+                        <span class="input-group-btn">
+                            <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+                <!-- /.search form -->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">@user.Roles.Select(s => s.RoleName).FirstOrDefault()</li>
+                    @{ if (Session["currentUser"] != null)
+                        {
+                            foreach (EmployeeRoleViewModel role in user.Roles)
+                            {
+                                if (role.RoleName == "StoreManager" || role.RoleName == "StoreSupervisor" || role.RoleName == "Administrator")
+                                {
+                                    <!--Department Head-->
+                                    <li><a href="~/ApproveAdjustment/AdjustmentList"><i class="fa fa-book"></i> <span>Approve Item Adjustments</span></a></li>
+                                }
+                                if (role.RoleName == "StoreClerk" || role.RoleName == "Administrator")
+                                {
+                                    <!--Store Clerk Section-->
+                                    <li><a href="~/Retrieval/RetrieveStationery"><i class="fa fa-book"></i> <span>Stationery Retrieval List</span></a></li>
+                                    <li><a href="~/Disbursement/viewDisbursement"><i class="fa fa-buysellads"></i> <span>Generate Disbursement</span></a></li>
+
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-bank"></i>
+                                            <span>Purchase Order</span>
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="~/PurchaseOrder/GenerateOrder"><i class="fa fa-first-order"></i> <span> Generate Order</span></a></li>
+                                            <li><a href="~/PurchaseOrder/updatePurchaseOrder"><i class="fa fa-bank"></i><span> Maintain Purchase Order</span></a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="~/MaintainInventory/ItemsList"><i class="fa fa-edit"></i><span> Maintain Inventory</span></a></li>
+                                    <li><a href="~/InventoryAdjustment/Index"><i class="fa fa-bank"></i><span> Inventory Adjustment</span></a></li>
+
+                                    <li><a href="~/MaintainSupplier/SupplierList"><i class="fa fa-edit"></i><span> Maintain Supplier</span></a></li>
+                                }
+                                if (role.RoleName == "DepartmentHead" || role.RoleName == "Administrator")
+                                {
+                                    <!--Department Head-->
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-laptop"></i>
+                                            <span> Delegation</span>
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="~/Delegate/delegateAuthority"><i class="fa fa-circle-o"></i> Delegate Authority</a></li>
+                                            <li><a href="~/Delegate/Delegation"><i class="fa fa-circle-o"></i> Delegation History</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li><a href="~/SetRepresentative/SetRepresentative"><i class="fa fa-book"></i> <span> Assign Department Rep</span></a></li>
+                                    <li><a href="~/MaintainDeptInfo/DeptInfo"><i class="fa fa-edit"></i> <span> Maintain Department Info</span></a></li>
+
+                                }
+                                if ((role.RoleName == "TemporaryDepartmentHead" || role.RoleName == "DepartmentHead" || role.RoleName == "Administrator"))
+                                {
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-laptop"></i>
+                                            <span> Requisition Approval</span>
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="~/ApproveReject/ApproveReject"><i class="fa fa-book"></i> <span> Approve Requisition</span></a></li>
+                                            <li><a href="~/ViewTransactionHistoryofDeptReq/HistoryAll"><i class="fa fa-book"></i> <span> Approval History</span></a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                if (role.RoleName == "DepartmentRep" || role.RoleName == "Administrator")
+                                {
+                                    <!--Department Rep-->
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-laptop"></i>
+                                            <span> Item Collection</span>
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="~/AckReceiveofItemCollect/CollectionItem"><i class="fa fa-book"></i> <span> Collect Items</span></a></li>
+                                            <li><a href="~/AckReceiveofItemCollect/AckCollectionItem"><i class="fa fa-book"></i> <span> Acknowledge Item Collection</span></a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="~/ChangeCollectionPoint/CollectionPoint"><i class="fa fa-book"></i> <span> Change Collection Point</span></a></li>
+
+                                }
+                                if (role.RoleName == "Employee" || role.RoleName == "StoreSupervisor" || role.RoleName == "StoreManager" || role.RoleName == "StoreClerk" || role.RoleName == "DepartmentRep" || role.RoleName == "Administrator")
+                                {
+                                    <!--Employee-->
+
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-laptop"></i>
+                                            <span> Requisition</span>
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+                                            <li><a href="~/SubmitRequisitionForm/AddItem"><i class="fa fa-book"></i> <span>Item Requisition</span></a></li>
+                                            <li><a href="~/ViewRequisitionHistory/EmpRequisitionHistoryForm"><i class="fa fa-book"></i> <span>Requisition History</span></a></li>
+                                        </ul>
+                                    </li>
+                                }
+                                if (role.RoleName == "StoreManager" || role.RoleName == "StoreSupervisor" || role.RoleName == "StoreClerk" || role.RoleName == "Administrator")
+                                {
+                                    <li class="treeview">
+                                        <a href="#">
+                                            <i class="fa fa-laptop"></i>
+                                            <span>Reports</span>
+                                            <span class="pull-right-container">
+                                                <i class="fa fa-angle-left pull-right"></i>
+                                            </span>
+                                        </a>
+                                        <ul class="treeview-menu">
+
+                                            @if (role.RoleName == "StoreManager" || role.RoleName == "StoreSupervisor" || role.RoleName == "StoreClerk" || role.RoleName == "Administrator")
+                                            {
+                                                <li><a href="~/TrendAnalysisReport/GenerateTrendAnalysisReport"><i class="fa fa-circle-o"></i> Requisition Trend Analysis</a></li>
+                                            }
+
+                                            @if (role.RoleName == "StoreManager" || role.RoleName == "StoreSupervisor" || role.RoleName == "Administrator")
+                                            {
+                                                <li><a href="~/ChargeBackReport/ViewChargeBackReport"><i class="fa fa-circle-o"></i> Charge-Back Report</a></li>
+                                                <li><a href="~/ReorderReport/ViewReorderReport"><i class="fa fa-circle-o"></i> Reorder Report</a></li>
+
+                                            }
+
+                                        </ul>
+                                    </li>
+                                }
+                            }
+                        }
+                    }
+
+                </ul>
+            </section>
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                @*<h1>
+                        Dashboard
+                        <small>Control panel</small>
+                    </h1>*@
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Home  </a></li>
+                    <li class="active">@ViewBag.Title</li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <!-- /.row -->
+                <!-- Main row -->
+                <div class="row">
+                    <div class="box-body">
+                        @RenderBody()
+                    </div>
+                </div>
+                <!-- /.row (main row) -->
+
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> Final Released
+            </div>
+            <strong>Copyright &copy; 2019-2020 <a href="#">SA47 TEAM8 AD</a>.</strong> All rights reserved.
+        </footer>
+
+        <div class="control-sidebar-bg"></div>
+    </div>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Morris.js charts -->
+    <script src="~/Scripts/raphael.min.js"></script>
+    <script src="~/Scripts/morris.min.js"></script>
+    <!-- Sparkline -->
+    <script src="~/Scripts/jquery.sparkline.min.js"></script>
+
+    <!-- jvectormap -->
+    <script src="~/Scripts/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="~/Scripts/jquery-jvectormap-world-mill-en.js"></script>
+
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/daterangepicker.js"></script>
+    <!-- datepicker -->
+    <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="~/Scripts/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="~/Scripts/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="~/Scripts/jquery.slimscroll.min.js"></script>
+    <!--icheck-->
+    <script src="~/Scripts/icheck.js"></script>
+    <!-- FastClick -->
+    <script src="~/Scripts/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Scripts/adminlte.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="~/Scripts/dashboard.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="~/Scripts/demo.js"></script>
+</body>
+</html>

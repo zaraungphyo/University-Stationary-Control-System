@@ -1,0 +1,221 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.DisbursementViewModel>
+
+@{
+    ViewBag.Title = "Disbursements";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title"><b>Disbursement Lists</b></h3><br />
+        <form class="form-inline">
+            <div class="form-group">
+                Department Name 
+                @Html.DropDownList("DepartmentId", ViewBag.bindDepartments as IEnumerable<SelectListItem>, htmlAttributes: new { @class = "form-control" })
+            </div>
+            <button class="btn btn-primary" formaction="~/Disbursement/viewDisbursement" formnovalidate formmethod="post" type="submit">Search</button>
+      </form>
+    </div>
+    <div class="box-body">
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered table-striped table-dark" id="dtBasicExample">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.DepartmentName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ItemDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.QuantityOnHand)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NeededQuantity)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ActualQuantity)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.OutstandingAmount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RetrievalDate)
+                        </th>
+
+                        <th>
+                            @Html.DisplayNameFor(model => model.CollectDate)
+                        </th>
+                        @*<th></th>*@
+                    </tr>
+                </thead>
+                @{ int counter = 0;}
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        counter++;
+                        <tr data-item-id="@item.ItemId" data-disbursement-id="@item.DisbursementId" data-dept-id="@item.DepartmentId">
+                            <td>@counter</td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DepartmentName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.QuantityOnHand)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NeededQuantity)
+                            </td>
+                            <td class="actQtyCol">
+                                @Html.DisplayFor(modelItem => item.ActualQuantity)
+                            </td>
+
+                            <td class="OutstandingAmount">
+                                @Html.DisplayFor(modelItem => item.OutstandingAmount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.RetrievalDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CollectDate)
+                            </td>
+                            @*<td>
+                                <button type="button" class="btnEdit btn btn-success">Edit</button>
+                                <button type="button" class="btnUpdate btn btn-success" style="display:none;">Update</button>
+                                <button type="button" class="btnCancel btn btn-danger" style="display:none;">Cancel</button>
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        }
+        else
+        {
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    There is no requisition to disburse.
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+               
+        //var dataTable= $('#dtBasicExample').DataTable();
+        //$('.dataTables_length').addClass('bs-select');
+        //dataTable.column(2).draw();
+
+        var t = $('#dtBasicExample').DataTable({
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 0
+            }],
+            "order": [[1, 'asc']]
+        });
+
+        t.on('order.dt search.dt', function () {
+            t.column(0, { search: 'applied', order: 'applied' }).nodes().each(function (cell, i) {
+                cell.innerHTML = i + 1;
+            });
+        }).draw();
+
+        var tempArr = [];
+        //$("#dtBasicExample").on("click", ".btnEdit", function () {
+        //    $(this).hide();
+        //    $(this).next(".btnUpdate").show();
+        //    $(this).next(".btnUpdate").next(".btnCancel").show();
+        //    var $rows = $(this).parent()             // Moves up from <button> to <td>
+        //        .parent();//move up td to tr
+        //    var actualQtyCol = $(this).closest("tr").find("td.actQtyCol");
+
+        //    var disbursementid = $($rows).data("disbursementId");
+        //    var actualValueBeforeEdit = actualQtyCol.text();
+        //    var tempObj = {
+        //        disbursementid: disbursementid,
+        //        OriginalActualQty: actualValueBeforeEdit.trim()
+        //    }
+        //    tempArr.push(tempObj);
+        //    window.localStorage.setItem('getOriginalActualQty', JSON.stringify(tempArr));
+        //    //   console.log(JSON.parse(window.localStorage.getItem('getOriginalActualQty')))
+        //    actualQtyCol.text('');
+        //    actualQtyCol.append("<input type='text' value='" + actualValueBeforeEdit.trim() + "' class='form-control actualQty' />");
+        //});
+        //$("#dtBasicExample").on("click", ".btnUpdate", function () {
+        //    var $rows = $(this).parent()             // Moves up from <button> to <td>
+        //        .parent();//move up td to tr
+        //    var ItemId = $($rows).data("itemId");
+        //    var deptId = $($rows).data("deptId");
+        //    var disbursementid = $($rows).data("disbursementId");
+        //    var neededQty = $($rows).find("td:eq(4)").text();
+        //    var actualQty = $($rows).find("td:eq(5) input").val();
+            
+        //    if (parseInt(actualQty) > parseInt(neededQty)) {
+        //        alert("Actual quantity should not be exceeded than needed quantity.");
+        //        return;
+        //    }
+        //    var outstandingAmt = parseInt(neededQty) - parseInt(actualQty);
+        //    $(this).hide();
+        //    $(this).next(".btnCancel").hide();
+        //    $(this).prev(".btnEdit").show();
+
+
+        //    var actualQtyCol = $(this).closest("tr").find("td.actQtyCol");
+        //    var outstandingCol = $(this).closest("tr").find("td.OutstandingAmount");
+        //    actualQtyCol.find("input.actualQty").remove();
+        //    actualQtyCol.text(actualQty);
+        //    outstandingCol.find("input.actualQty").remove();
+        //    outstandingCol.text(outstandingAmt);
+
+        //    var updateDisObj = {
+        //        DisbursementId: disbursementid,
+        //        ItemId: ItemId,
+        //        DepartmentId: deptId,
+        //        NeededQuantity: neededQty.trim(),
+        //        ActualQuantity: actualQty.trim()
+        //    };
+        //    $.ajax({
+        //        url: 'updateDisbursement',
+        //        type: 'POST',
+        //        dataType: "json",
+        //        contentType: 'application/json',
+        //        data: JSON.stringify(updateDisObj)
+        //    });
+        //});
+        //$("#dtBasicExample").on("click", ".btnCancel", function () {
+        //    var $rows = $(this).parent()             // Moves up from <button> to <td>
+        //        .parent();//move up td to tr
+          
+        //    var actualQtyCol = $(this).closest("tr").find("td.actQtyCol");
+        //    actualQtyCol.find("input.actualQty").remove();
+        //    var actualQtyCol = $(this).closest("tr").find("td.actQtyCol");
+        //    var disbursementid = $($rows).data("disbursementId");
+        //    var regainOriginActualQty = JSON.parse(window.localStorage.getItem('getOriginalActualQty'));
+        //    for (var i = 0; i < regainOriginActualQty.length; i++) {
+        //        if (disbursementid == regainOriginActualQty[i].disbursementid) {
+        //            actualQtyCol.text(regainOriginActualQty[i].OriginalActualQty);
+        //            tempArr = $.grep(regainOriginActualQty,
+        //                function (o, i) { return o.disbursementid === disbursementid; },
+        //                true);
+        //            window.localStorage.setItem('getOriginalActualQty', JSON.stringify(tempArr));
+        //        }
+        //    }
+
+        //    $(this).hide();
+        //    $(this).prev(".btnUpdate").hide();
+        //    $(this).prev().prev(".btnEdit").show();
+        //});
+    });
+</script>

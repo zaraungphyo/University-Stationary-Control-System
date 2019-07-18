@@ -1,0 +1,98 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.SupplierViewModel>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Supplier List";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<p>
+    @Html.ActionLink("Add New Supplier", "AddSupplier",null,new { @class="btn btn-success"})
+</p>
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">
+            Supplier List
+        </h3>
+    </div>
+    <div class="box-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>  # </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SupplierName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContactName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PhoneNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FaxNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GSTRegistrationNo)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 0;
+                    foreach (var item in Model)
+                    {
+                        i++;
+                        <tr id="row" @i>
+                            <td>
+                                <text>@i</text>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SupplierName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ContactName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PhoneNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FaxNo)
+                            </td>
+                            <td>
+                                @*@Html.DisplayFor(modelItem => item.Address)*@
+                                @item.Address.Replace(@"\n", string.Empty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                                @if (item.Email == null)
+                                {
+                                    <text> - </text>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.GSTRegistrationNo)
+                                @if (item.GSTRegistrationNo == null)
+                                {
+                                    <text> - </text>
+                                }
+                            </td>
+                            <td>
+                                    @Html.ActionLink("Edit", "EditSupplier", new { id = item.SupplierId }, new { @class = "btn btn-success" })
+                               
+                                    @Html.ActionLink("Details", "SupplierItemDetails", new { id = item.SupplierId }, new { @class = "btn btn-success" })
+                                
+                            </td>
+                        </tr>
+                    }
+                }
+        </table>
+    </div>
+</div>

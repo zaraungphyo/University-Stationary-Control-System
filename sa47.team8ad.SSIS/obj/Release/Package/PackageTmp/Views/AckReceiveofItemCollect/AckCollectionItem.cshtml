@@ -1,0 +1,94 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.DisbursementViewModel>
+
+@{
+    ViewBag.Title = "Acknowledge Item Collections";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<h2>AckCollectionItem</h2>
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Acknowledge Item Collections </h3>
+    </div>
+    <div class="box-body">
+        <form id="form">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Item Description
+                        </th>
+                        <th>
+                            Collected Quantity
+                        </th>
+                        <th>
+                            Return Quntity
+                        </th>
+                        <th>
+                            Reason
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td class="aaaa">
+                                @Html.DisplayFor(modelItem => item.Item.ItemDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ActualQuantity)
+                            </td>
+                            <td>
+                                <input type="text" class="form-control ReturnQuantity" value="@item.ReturnQuantity" />
+                            </td>
+                            <td>
+                                <input type="text" class="form-control Reason" value="@item.Reason" />
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <input type="button" id="Save" value="Submit" class="btn btn-success" />
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $("#Save").click(function (evt) {
+        evt.preventDefault();
+        var item = [];
+        item =  @Html.Raw(Json.Encode(Model)) ;
+
+        var counter = 0;
+        $('table tbody tr').each(function (index, row) {
+            var returnQuantity = $(".ReturnQuantity", this).val();
+            var Reason = $(".Reason", this).val();
+
+            item[counter].ReturnQuantity = returnQuantity;
+            item[counter].Reason = Reason;
+            counter++;
+        });
+
+        $.ajax({
+            url: '@Url.Action("AckCollectionItem", "AckReceiveofItemCollect")',
+            type: 'POST',
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify(item)
+        });
+        location.reload();
+        return false;
+    });
+
+</script>

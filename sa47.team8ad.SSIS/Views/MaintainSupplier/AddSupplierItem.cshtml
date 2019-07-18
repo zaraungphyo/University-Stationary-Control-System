@@ -1,0 +1,102 @@
+﻿@model sa47.team8ad.SSIS.Models.SupplierItemViewModel
+
+@{
+    ViewBag.Title = "Add Supplier Item";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title">Create Supplier Item - @ViewBag.BindName</h3>
+    </div>
+    <div class="box-body">
+
+        @using (Html.BeginForm("AddSupplierItem", "MaintainSupplier", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                @Html.HiddenFor(model => model.SupplierId, new { Value = ViewBag.BindId })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ItemId, "Item Description", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.HiddenFor(s => s.ItemId)
+                        @Html.TextBox("ItemDescription", null, new { @class = "form-control", @list = "dlItemName" })
+                        <datalist id="dlItemName" name="ItemDescription"></datalist>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TenderPrice, "Tender Price", htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.TenderPrice, new { htmlAttributes = new { @class = "form-control",
+                       type = "number", min = "0.00", max = "10000.00", step = "0.01"} })
+                        @Html.ValidationMessageFor(model => model.TenderPrice, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.EditorFor(model => model.Status, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Remark, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Priority, htmlAttributes: new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Priority, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1",
+                       max = "3" } })
+                        @Html.ValidationMessageFor(model => model.Priority, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-4">
+                        @Html.ActionLink("Back", "SupplierList", new { id = ViewBag.BindId }, new { @class = "btn btn-danger" })
+                        <input type="submit" value="Create" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url:'@Url.Action("itemsAutoComplete", "PurchaseOrder")',
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (data, statusCode) {
+                items = data;
+                $.each(data, function (key, values) {
+                    $("#dlItemName").append($("<option>").attr('data-value', values.ItemId).text(values.ItemDescription));
+                });
+            }
+        });
+        $('#ItemDescription').change(function () {
+            var val = $('#ItemDescription').val();
+            var id = $('#dlItemName option').filter(function () {
+                return this.value == val;
+            }).data('value');
+            $("#ItemId").val(id);
+        });
+    });
+
+</script>

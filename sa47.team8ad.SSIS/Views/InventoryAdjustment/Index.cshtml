@@ -1,0 +1,134 @@
+﻿@model IEnumerable<sa47.team8ad.SSIS.Models.ItemAdjustmentViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["message"]</strong>
+    </div>
+}
+@if (TempData["errorMessage"] != null)
+{
+    <div class="alert alert-danger fade in">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>@TempData["errorMessage"]</strong>
+    </div>
+}
+<p>
+    @Html.ActionLink("Add New Adjustment Item", "AddAdjustmentItem", null, new { @class = "btn btn-success" })
+</p>
+<div class="box box-danger">
+    <div class="box-header">
+        <h3 class="box-title"><b>Index</b></h3>
+    </div>
+    <div class="box-body">
+
+        @if (Model.Count() > 0)
+        {
+            using (Html.BeginForm("Index", "InventoryAdjustment", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.Hidden("itemAdjustment")
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>  #  </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Item.ItemDescription)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Item.QuantityOnHand)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.AdjustmentQuantity)
+                            </th>
+                            <th>@Html.DisplayNameFor(model => model.Item.MeasurementUnit.UnitName)</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Reason)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{int counter = 0; }
+                        @foreach (var adj in Model)
+                        {
+                            counter++;
+                            <tr>
+
+                                <td id="ItemAdjustmentId">
+                                    <text>@counter</text>
+                                    <input type="hidden" class="ItemAdjustmentId" value="@adj.ItemAdjustmentId.ToString()" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => adj.Item.ItemDescription)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => adj.Item.QuantityOnHand)
+                                </td>
+                                <td class="AdjustmentQuantity">
+                                    @Html.DisplayFor(model => adj.AdjustmentQuantity)
+                                </td>
+                                
+                                <td>@Html.DisplayFor(model => adj.Item.MeasurementUnit.UnitName)</td>
+                                <td>
+                                    @Html.DisplayFor(model => adj.Reason)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Delete", "removeAdjustmentItem", new { id = adj.ItemAdjustmentId }, new { @class = "btn btn-danger" })
+                                    @Html.ActionLink("Edit", "EditAdjustmentItem", new { AdjustmentQuantity = adj.AdjustmentQuantity,Reason = adj.Reason, ItemDescription = adj.Item.ItemDescription ,ItemId=adj.ItemId, ItemAdjustmentId =adj.ItemAdjustmentId}, new { @class = "btn btn-success" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div>
+                    <button class="btn btn-success" id="btnApprove" type="submit">Submit For Approval</button>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    There is no data.
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnApprove').on("click",function (evt) {
+                evt.preventDefault();
+                var adjItems = [];
+                adjItems =  @Html.Raw(Json.Encode(Model)) ;
+                var counter = 0;
+                $('table tbody tr').each(function () {
+                    var AdjustmentQuantity = $(this).find(".AdjustmentQuantity").text().replace(/\n/ig, '').trim();
+                    var ItemAdjustmentId = $('.ItemAdjustmentId', this).val().replace(/\n/ig, '').trim();
+                    adjItems[counter].AdjustmentQuantity = AdjustmentQuantity;
+                    adjItems[counter].ItemAdjustmentId = ItemAdjustmentId;
+
+                    counter++;
+                });
+                $("#itemAdjustment").val(JSON.stringify(adjItems));
+                //$.ajax({
+                //    url: 'Index',
+                //    type: 'POST',
+                //    dataType: "json",
+                //    contentType: 'application/json',
+                //    data: JSON.stringify(adjItems)
+                //});
+                //location.reload();
+                $('form').submit();
+                return false;
+        });
+        });
+</script>
